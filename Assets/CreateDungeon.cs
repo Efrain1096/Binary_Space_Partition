@@ -18,13 +18,12 @@ public class CreateDungeon: MonoBehaviour
         //root.Draw();
 
 
-        int leftWidth = Random.Range(1, 20);
+        int leftWidth = Random.Range( (int)(mapDepth * 0.1f), (int)(mapDepth * 0.7f));
 
         Leaf left = new Leaf(0, 0, leftWidth, mapDepth, scale);
-        Leaf right = new Leaf(leftWidth, 0, mapWidth / 2 , mapDepth, scale);
+        Leaf right = new Leaf(leftWidth, 0, mapWidth - leftWidth , mapDepth, scale);
         left.Draw();
         right.Draw();
-
 
 
     }
