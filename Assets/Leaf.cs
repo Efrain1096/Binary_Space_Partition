@@ -34,7 +34,7 @@ public class Leaf : MonoBehaviour
                 GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 cube.transform.position = new Vector3(x * scale, 0, z * scale); // Muliply the scale by the cube's position to separate them apart.
                 cube.transform.localScale = new Vector3(scale, scale, scale);
-                cube.GetComponent<Renderer>().material.SetColor("_Color", c);
+                cube.GetComponent<Renderer>().material.SetColor("_Color", c); // Add some color to distiguish the different partitions.
 
             }
         }
