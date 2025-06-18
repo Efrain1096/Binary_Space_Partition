@@ -15,14 +15,40 @@ public class CreateDungeon : MonoBehaviour
     {
 
         root = new Leaf(0, 0, mapWidth, mapDepth, scale);
-        root.Split();
-        //root.Draw();
+        BSP(root, 20);
 
     }
 
-    // Update is called once per frame
+    void BSP(Leaf l, int splitDepth)
+    {
+
+        if (l == null) { return; }
+
+        if (splitDepth <= 0)
+        {
+            l.Draw(0);
+            return;
+        }
+
+        if (l.Split())
+        {
+            BSP(l.leftChild, splitDepth - 1);
+            BSP(l.rightChild, splitDepth - 1);
+        }
+        else
+        {
+            l.Draw(0);
+        }
+
+    }
+
     void Update()
     {
 
     }
 }
+
+
+
+
+
