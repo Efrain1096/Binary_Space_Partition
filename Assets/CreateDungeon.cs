@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreateDungeon: MonoBehaviour
+public class CreateDungeon : MonoBehaviour
 {
 
     public int mapWidth = 50; //X direction
@@ -15,22 +15,14 @@ public class CreateDungeon: MonoBehaviour
     {
 
         root = new Leaf(0, 0, mapWidth, mapDepth, scale);
+        root.Split();
         //root.Draw();
-
-
-        int leftWidth = Random.Range( (int)(mapDepth * 0.1f), (int)(mapDepth * 0.7f));
-
-        Leaf left = new Leaf(0, 0, leftWidth, mapDepth, scale);
-        Leaf right = new Leaf(leftWidth, 0, mapWidth - leftWidth , mapDepth, scale);
-        left.Draw();
-        right.Draw();
-
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
