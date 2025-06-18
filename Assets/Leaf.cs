@@ -11,6 +11,7 @@ public class Leaf
     int width;
     int depth;
     int scale;
+    int roomMin = 5;
 
     public Leaf leftChild;
     public Leaf rightChild;
@@ -25,17 +26,32 @@ public class Leaf
 
     public bool Split()
     {
-        if (Random.Range(0, 100) < 50)
+
+        if (width <= roomMin || depth <= roomMin) { return false; } // This will restrict our sections or "rooms" not be tiny and useless.
+
+        bool splitHorizontal = Random.Range(0, 100) > 50;
+
+        if (width > depth && width / depth >= 1.2) { splitHorizontal = false; }
+        else if (depth > width && depth / width >= 1.2) { splitHorizontal = true; }
+
+
+        int max = (splitHorizontal ? depth : width) - roomMin;
+
+        if (max <= roomMin) { return false; }
+
+        if (splitHorizontal)
         {
-            int leftWidth = Random.Range((int)(width * 0.1f), (int)(width * 0.7f));
-            leftChild = new Leaf(xPos, zPos, leftWidth, depth, scale);
-            rightChild = new Leaf(xPos + leftWidth, zPos, width - leftWidth, depth, scale);
+            int leftDepth = Random.Range(roomMin, max);
+            leftChild = new Leaf(xPos, zPos, width, leftDepth, scale);
+            rightChild = new Leaf(xPos, zPos + leftDepth, width, depth - leftDepth, scale);
         }
         else
         {
-            int leftDepth = Random.Range((int)(depth * 0.1f), (int)(depth * 0.7f));
-            leftChild = new Leaf(xPos, zPos, width, leftDepth, scale);
-            rightChild = new Leaf(xPos, zPos + leftDepth, width, depth - leftDepth, scale);
+            int leftWidth = Random.Range(roomMin, max);
+            leftChild = new Leaf(xPos, zPos, leftWidth, depth, scale);
+            rightChild = new Leaf(xPos + leftWidth, zPos, width - leftWidth, depth, scale);
+
+
         }
         return true;
 
