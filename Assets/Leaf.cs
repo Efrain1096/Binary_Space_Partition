@@ -69,7 +69,7 @@ public class Leaf
         Color c = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
         for (int x = xPos; x < width + xPos; x++)
         {
-            for (int z = zPos; z < depth + zPos; z++) // Create 3D cubes of 1 unit. 
+            for (int z = zPos; z < depth + zPos; z++) //This creates 3D cubes of 1 unit of different colors. 
             {
                 GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 cube.transform.position = new Vector3(x * scale, 0, z * scale); // Muliply the scale by the cube's position to separate them apart.
@@ -78,6 +78,7 @@ public class Leaf
             }
         }
 
+        /*The code below creates the empy sections of the map*/
 
         for (int x = xPos + 1; x < width + xPos - 1; x++) // This set 0 to the sections we want to create rooms.
         {

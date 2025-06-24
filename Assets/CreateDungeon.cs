@@ -25,15 +25,15 @@ public class CreateDungeon : MonoBehaviour
         {
             for (int x = 0; x < mapWidth; x++)// For the x-dimension.
             {
-                map[x, z] = 1; // A value of 1 means there is a cube there.
+                map[x, z] = 1; // Writing a 1 means a cube is meant to be created at the coordinate (x,z).
             }
         }
 
 
 
 
-        BSP(root, 3);
-        DrawMap();
+        //BSP(root, 3); // This creates a color-coded "map" of the sections of the dungeon. 
+        DrawMap(); // This creates the actual map with the empty sections (rooms).
 
     }
 
