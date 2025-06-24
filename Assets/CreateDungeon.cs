@@ -10,12 +10,16 @@ public class CreateDungeon : MonoBehaviour
     public int scale = 2;
     Leaf root;
 
+    byte[,] map; // This will be the map that tells us where there are 0s and 1s representing the state of the "dungeon".
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-
+        map = new byte[mapWidth, mapDepth];
         root = new Leaf(0, 0, mapWidth, mapDepth, scale);
-        BSP(root, 20);
+        BSP(root, 3);
 
     }
 
