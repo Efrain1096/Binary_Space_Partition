@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreateDungeon : MonoBehaviour
@@ -19,7 +20,20 @@ public class CreateDungeon : MonoBehaviour
     {
         map = new byte[mapWidth, mapDepth];
         root = new Leaf(0, 0, mapWidth, mapDepth, scale);
+
+        for (int z = 0; z < mapDepth; z++)// For the z-dimension.
+        {
+            for (int x = 0; x < mapWidth; x++)// For the x-dimension.
+            {
+                map[x, z] = 1; // A value of 1 means there is a cube there.
+            }
+        }
+
+
+
+
         BSP(root, 3);
+        DrawMap();
 
     }
 
@@ -30,7 +44,7 @@ public class CreateDungeon : MonoBehaviour
 
         if (splitDepth <= 0)
         {
-            leaf.Draw(0);
+            leaf.Draw(map);
             return;
         }
 
@@ -41,13 +55,31 @@ public class CreateDungeon : MonoBehaviour
         }
         else
         {
-            leaf.Draw(0);
+            leaf.Draw(map);
         }
 
     }
 
-    void Update()
+    void DrawMap() // This is meant to "carve" out the empty spaces for creating the rooms.
     {
+
+
+        for (int z = 0; z < mapDepth; z++)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                if (map[x, z] == 1) //If it's set to a value of 1, create a cube there.
+                {
+                    GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    cube.transform.position = new Vector3(x * scale, 10, z * scale);
+                    cube.transform.localScale = new Vector3(scale, scale, scale);
+                }
+            }
+        }
+
+
+
+
 
     }
 }
