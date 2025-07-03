@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CreateDungeon : MonoBehaviour
@@ -10,40 +11,77 @@ public class CreateDungeon : MonoBehaviour
     public int scale = 2;
     Leaf root;
 
+    byte[,] map; // This will be the map that tells us where there are 0s and 1s representing the state of the "dungeon".
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-
+        map = new byte[mapWidth, mapDepth];
         root = new Leaf(0, 0, mapWidth, mapDepth, scale);
-        BSP(root, 20);
+
+        for (int z = 0; z < mapDepth; z++)// For the z-dimension.
+        {
+            for (int x = 0; x < mapWidth; x++)// For the x-dimension.
+            {
+                map[x, z] = 1; // Writing a 1 means a cube is meant to be created at the coordinate (x,z).
+            }
+        }
+
+        BSP(root, 3); // This creates a color-coded "map" of the sections of the dungeon. In order for it to work properly, both BSP and DrawMap have to be called.
+        DrawMap(); // This creates the actual map with the empty sections (rooms).
 
     }
 
-    void BSP(Leaf l, int splitDepth)
+    void BSP(Leaf leaf, int splitDepth)
     {
 
-        if (l == null) { return; }
+        if (leaf == null) { return; }
 
         if (splitDepth <= 0)
         {
-            l.Draw(0);
+            leaf.Draw(map);
             return;
         }
 
-        if (l.Split())
+        if (leaf.Split())
         {
-            BSP(l.leftChild, splitDepth - 1);
-            BSP(l.rightChild, splitDepth - 1);
+            BSP(leaf.leftChild, splitDepth - 1);
+            BSP(leaf.rightChild, splitDepth - 1);
         }
         else
         {
-            l.Draw(0);
+            leaf.Draw(map);
         }
 
     }
 
-    void Update()
+    void DrawMap()
     {
 
+
+        for (int z = 0; z < mapDepth; z++)
+        {
+            for (int x = 0; x < mapWidth; x++)
+            {
+                if (map[x, z] == 1) //If it's set to a value of 1, create a cube there.
+                {
+                    GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    cube.transform.position = new Vector3(x * scale, 10, z * scale);
+                    cube.transform.localScale = new Vector3(scale, scale, scale);
+                }
+            }
+        }
+
+
+
+
+
     }
+
+
+
+
+
 }
