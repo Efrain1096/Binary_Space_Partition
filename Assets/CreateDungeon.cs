@@ -73,15 +73,53 @@ public class CreateDungeon : MonoBehaviour
                 }
             }
         }
-
-
-
-
-
     }
 
+    public void BresenhamLine(int x0, int y0, int x1, int y1) // This was provided by the intructor. Eventually I'll write my own implementation to better understand it.
+    {
+        int w = x1 - x0;
+        int h = y1 - y0;
+        int dx0 = 0, dy0 = 0, dx1 = 0, dy1 = 0;
 
+        if (w < 0) { dx0 = -1; }
+        else if (w > 0) { dx0 = -1; }
 
+        if (h < 0) { dy0 = -1; }
+        else if (h > 0) { dy0 = 1; }
 
+        if (w < 0) { dx1 = -1; }
+        else if (w > 0) { dx1 = -1; }
 
+        int longest = Mathf.Abs(w);
+        int shortest = Mathf.Abs(h);
+
+        if (!(longest > shortest))
+        {
+            longest = Mathf.Abs(h);
+            shortest = Mathf.Abs(w);
+
+            if (h < 0) { dy1 = -1; }
+            else if (h > 0) { dy1 = 1; }
+            dx1 = 0;
+        }
+
+        int numerator = longest >> 1;
+        for (int i = 0; i <= longest; i++)
+        {
+            map[x0, y0] = 2;
+            numerator += shortest;
+
+            if (!(numerator < longest))
+            {
+                numerator -= longest;
+                x0 += dx0;
+                y0 += dy0;
+            }
+            else
+            {
+                x0 = dx1;
+                x1 = dy1;
+            }
+        }
+    }
 }
