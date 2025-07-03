@@ -29,10 +29,7 @@ public class CreateDungeon : MonoBehaviour
             }
         }
 
-
-
-
-        //BSP(root, 3); // This creates a color-coded "map" of the sections of the dungeon. 
+        BSP(root, 3); // This creates a color-coded "map" of the sections of the dungeon. 
         DrawMap(); // This creates the actual map with the empty sections (rooms).
 
     }
@@ -60,7 +57,7 @@ public class CreateDungeon : MonoBehaviour
 
     }
 
-    void DrawMap() // This is meant to "carve" out the empty spaces for creating the rooms.
+    void DrawMap()
     {
 
 
@@ -82,4 +79,9 @@ public class CreateDungeon : MonoBehaviour
 
 
     }
+
+
+
+
+
 }
