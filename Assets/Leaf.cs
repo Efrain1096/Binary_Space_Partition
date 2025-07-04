@@ -81,9 +81,10 @@ public class Leaf
 
         /*The code below creates the empy sections of the map*/
 
-        for (int x = xPos + 1; x < width + xPos - 1; x++) // This set 0 to the sections we want to create rooms.
+        int wallThickness = Random.Range(1, 5);
+        for (int x = xPos + wallThickness; x < width + xPos - 1; x++) // This set 0 to the sections we want to create rooms.
         {
-            for (int z = zPos + 1; z < depth + zPos - 1; z++) // Start and end by an off set of 1 to keep the "walls".
+            for (int z = zPos + wallThickness; z < depth + zPos - 1; z++) // Start and end by an off set of 1 to keep the "walls".
             {
                 map[x, z] = 0;
             }
