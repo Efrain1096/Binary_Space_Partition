@@ -341,6 +341,7 @@ MonoBehaviour:
   mapWidth: 50
   mapDepth: 50
   scale: 2
+  depth: 6
 --- !u!4 &1106140901
 Transform:
   m_ObjectHideFlags: 0

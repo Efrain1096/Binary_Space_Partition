@@ -67,7 +67,13 @@ public class CreateDungeon : MonoBehaviour
     {
         for (int i = 1; i < corridors.Count; i++)
         {
-            BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i - 1].x, (int)corridors[i - 1].y);
+
+            //We only want the corridors to be vertical or horizontal.
+            if ((int)corridors[i].x == (int)corridors[i - 1].x || (int)corridors[i].y == (int)corridors[i - 1].y) // As-is, not all the rooms are joined by the corridors.
+            {
+                BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i - 1].x, (int)corridors[i - 1].y);
+            }
+
         }
     }
 
