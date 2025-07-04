@@ -66,7 +66,7 @@ public class Leaf
 
     public void Draw(byte[,] map)
     {
-        /*
+        /* This bit of code "draws" the colored sections representing the partitions for our rooms.s
         Color c = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
         for (int x = xPos; x < width + xPos; x++)
         {

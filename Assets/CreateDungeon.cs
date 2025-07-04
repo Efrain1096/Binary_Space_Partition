@@ -33,9 +33,34 @@ public class CreateDungeon : MonoBehaviour
 
         BSP(root, depth); //Recursively create the map until the depth, as defined above.
         AddCorridors();
+        AddRandomCorridors(50);
+
         DrawMap(); // This creates the actual map with the empty sections (rooms).
 
     }
+
+
+
+    void AddRandomCorridors(int numHalls)
+    {
+        for (int i = 0; i < numHalls; i++)
+        {
+            int startX = Random.Range(5, mapWidth - 5);
+            int startZ = Random.Range(5, mapDepth - 5);
+            int length = Random.Range(5, mapWidth - 5);
+
+            if (Random.Range(0, 100) < 50)
+            {
+                BresenhamLine(startX, startZ, length, startZ);
+            }
+            else
+            {
+                BresenhamLine(startX, startZ, startX, length); //Length is a bit misleading. It's supposed to be the ending position of where to stop at the end of the map.
+            }
+        }
+    }
+
+
 
     void BSP(Leaf leaf, int splitDepth)
     {
