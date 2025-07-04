@@ -64,8 +64,9 @@ public class Leaf
             */
     }
 
-    public void Draw(byte[,] map)
+    public void Draw(byte[,] map) //This was the original draw function for testing the map creation of colored sections.
     {
+<<<<<<< HEAD
         /* This bit of code "draws" the colored sections representing the partitions for our rooms.s
         Color c = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
         for (int x = xPos; x < width + xPos; x++)
@@ -78,6 +79,20 @@ public class Leaf
                 cube.GetComponent<Renderer>().material.SetColor("_Color", c); // Add some color to distiguish the different partitions.
             }
         }
+=======
+        /*  Color c = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
+          for (int x = xPos; x < width + xPos; x++)
+          {
+              for (int z = zPos; z < depth + zPos; z++) //This creates 3D cubes of 1 unit of different colors. 
+              {
+                  GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                  cube.transform.position = new Vector3(x * scale, 0, z * scale); // Muliply the scale by the cube's position to separate them apart.
+                  cube.transform.localScale = new Vector3(scale, scale, scale);
+                  cube.GetComponent<Renderer>().material.SetColor("_Color", c); // Add some color to distiguish the different partitions.
+              }
+          }
+      */
+>>>>>>> 02a766dcdc0d834278e3c4bdd8eeee06256a36a4
 
     */
         /*The code below creates the empy sections of the map*/
