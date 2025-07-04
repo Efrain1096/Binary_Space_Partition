@@ -6,12 +6,12 @@ using UnityEngine;
 public class Leaf
 {
 
-    int xPos;
-    int zPos;
-    int width;
-    int depth;
-    int scale;
-    int roomMin = 5;
+    public int xPos;
+    public int zPos;
+    public int width;
+    public int depth;
+    public int scale;
+    public int roomMin = 5;
 
     public Leaf leftChild;
     public Leaf rightChild;
