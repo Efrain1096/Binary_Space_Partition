@@ -33,7 +33,7 @@ public class CreateDungeon : MonoBehaviour
 
         BSP(root, depth); //Recursively create the map until the depth, as defined above.
         AddCorridors();
-        AddRandomCorridors(50);
+        AddRandomCorridors(10);
 
         DrawMap(); // This creates the actual map with the empty sections (rooms).
 
