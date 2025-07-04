@@ -31,7 +31,7 @@ public class CreateDungeon : MonoBehaviour
             }
         }
 
-        BSP(root, depth); // This creates a color-coded "map" of the sections of the dungeon. In order for it to work properly, both BSP and DrawMap have to be called.
+        BSP(root, depth); //Recursively create the map until the depth, as defined above.
         AddCorridors();
         DrawMap(); // This creates the actual map with the empty sections (rooms).
 
@@ -72,6 +72,11 @@ public class CreateDungeon : MonoBehaviour
             if ((int)corridors[i].x == (int)corridors[i - 1].x || (int)corridors[i].y == (int)corridors[i - 1].y) // As-is, not all the rooms are joined by the corridors.
             {
                 BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i - 1].x, (int)corridors[i - 1].y);
+            }
+            else
+            {
+                BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i].x, (int)corridors[i - 1].y);
+                BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i - 1].x, (int)corridors[i].y);
             }
 
         }
@@ -126,7 +131,7 @@ public class CreateDungeon : MonoBehaviour
         int numerator = longest >> 1;
         for (int i = 0; i <= longest; i++)
         {
-            map[x0, y0] = 2;
+            map[x0, y0] = 0; //Before, this was a two, but we want a 0 to set the empty spots of the map. More specifically, the corridors.
             numerator += shortest;
             if (!(numerator < longest))
             {
