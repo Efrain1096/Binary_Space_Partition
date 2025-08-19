@@ -9,13 +9,11 @@ public class CreateDungeon : MonoBehaviour
     public int mapWidth = 50; //X direction
     public int mapDepth = 50; //Z direction
     public int scale = 2;
-
-    public int depth = 6;
+    //public int depth = 2;
     Leaf root;
 
     byte[,] map; // This will be the map that tells us where there are 0s and 1s representing the state of the "dungeon".
     List<Vector2> corridors = new List<Vector2>();
-
 
     // Start is called before the first frame update
     void Start()
@@ -31,15 +29,13 @@ public class CreateDungeon : MonoBehaviour
             }
         }
 
-        BSP(root, depth); //Recursively create the map until the depth, as defined above.
+        BSP(root, 5); //Recursively create the map until the depth, as defined above.
         AddCorridors();
         DrawMap(); // This creates the actual map with the empty sections (rooms).
-
     }
 
     void BSP(Leaf leaf, int splitDepth)
     {
-
         if (leaf == null) { return; }
 
         if (splitDepth <= 0)
@@ -58,7 +54,6 @@ public class CreateDungeon : MonoBehaviour
         {
             leaf.Draw(map);
             corridors.Add(new Vector2(leaf.xPos + leaf.width / 2, leaf.zPos + leaf.depth / 2));
-
         }
 
     }
@@ -67,7 +62,6 @@ public class CreateDungeon : MonoBehaviour
     {
         for (int i = 1; i < corridors.Count; i++)
         {
-
             //We only want the corridors to be vertical or horizontal.
             if ((int)corridors[i].x == (int)corridors[i - 1].x || (int)corridors[i].y == (int)corridors[i - 1].y) // As-is, not all the rooms are joined by the corridors.
             {
@@ -78,13 +72,8 @@ public class CreateDungeon : MonoBehaviour
                 BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i].x, (int)corridors[i - 1].y);
                 BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i - 1].x, (int)corridors[i].y);
             }
-
         }
     }
-
-
-
-
 
     void DrawMap()
     {
@@ -113,26 +102,50 @@ public class CreateDungeon : MonoBehaviour
     //https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
     public void BresenhamLine(int x0, int y0, int x1, int y1)
     {
-        int w = x1 - x0;
-        int h = y1 - y0;
+        int w = x1 - x0; // Delta_W = X
+        int h = y1 - y0; //Delta_H = Y
         int dx0 = 0, dy0 = 0, dx1 = 0, dy1 = 0;
-        if (w < 0) dx0 = -1; else if (w > 0) dx0 = 1;
-        if (h < 0) dy0 = -1; else if (h > 0) dy0 = 1;
-        if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
+
+        if (w < 0) { dx0 = -1; }
+        else if (w > 0) { dx0 = 1; }
+
+        if (h < 0) { dy0 = -1; }
+        else if (h > 0) { dy0 = 1; }
+
+        if (w < 0) { dx1 = -1; }
+        else if (w > 0) { dx1 = 1; }
+
         int longest = Mathf.Abs(w);
         int shortest = Mathf.Abs(h);
+
+        /* If (longest (dX) > shortest (dy), then the x-axis is the axis of control for the algorithm and is axis of maximum movement.
+        Within the main loop of the algorithm, the coordinate corresponding to the axis of control is increment by one unit.
+        The coordinate of the other axis is only incremented when needed. As seen below, the longest and shortest are swapped
+        to indicate the need for the axis control change.  
+
+        As explained here: https://www.cs.put.poznan.pl/swilk/pmwiki/uploads/Dydaktyka/bresenham-int.pdf
+
+        */
+
+
         if (!(longest > shortest))
         {
-            longest = Mathf.Abs(h);
+            longest = Mathf.Abs(h); // Switch the longest and shortest.
             shortest = Mathf.Abs(w);
-            if (h < 0) dy1 = -1; else if (h > 0) dy1 = 1;
+
+            if (h < 0) { dy1 = -1; }
+            else if (h > 0) { dy1 = 1; }
+
             dx1 = 0;
         }
+
         int numerator = longest >> 1;
         for (int i = 0; i <= longest; i++)
         {
+            //Change the value to a 2 to set red block traces of the corridors. Set it to 0 to actually clear our the paths.
             map[x0, y0] = 0; //Before, this was a two, but we want a 0 to set the empty spots of the map. More specifically, the corridors.
             numerator += shortest;
+
             if (!(numerator < longest))
             {
                 numerator -= longest;

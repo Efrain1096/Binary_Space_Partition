@@ -31,12 +31,11 @@ public class Leaf
 
         bool splitHorizontal = Random.Range(0, 100) > 50;
 
-        if (width > depth && width / depth >= 1.2) { splitHorizontal = false; }
+        if (width > depth && width / depth >= 1.2) { splitHorizontal = false; } // This controls the size of the partitions so they aren't tiny and useless.
         else if (depth > width && depth / width >= 1.2) { splitHorizontal = true; }
 
 
         int max = (splitHorizontal ? depth : width) - roomMin;
-
         if (max <= roomMin) { return false; }
 
         if (splitHorizontal)
@@ -50,11 +49,8 @@ public class Leaf
             int leftWidth = Random.Range(roomMin, max);
             leftChild = new Leaf(xPos, zPos, leftWidth, depth, scale);
             rightChild = new Leaf(xPos + leftWidth, zPos, width - leftWidth, depth, scale);
-
-
         }
         return true;
-
 
         /*  int leftWidth = Random.Range( (int)(mapDepth * 0.1f), (int)(mapDepth * 0.7f));
             Leaf left = new Leaf(0, 0, leftWidth, mapDepth, scale);
@@ -64,7 +60,7 @@ public class Leaf
             */
     }
 
-    public void Draw(byte[,] map) //This was the original draw function for testing the map creation of colored sections.
+    public void Draw(byte[,] map) //This is the original draw function for testing the map creation of colored sections.
     {
         /*  Color c = new Color(Random.Range(0, 1f), Random.Range(0, 1f), Random.Range(0, 1f));
           for (int x = xPos; x < width + xPos; x++)
@@ -78,10 +74,8 @@ public class Leaf
               }
           }
       */
-
         /*The code below creates the empy sections of the map*/
-
-        int wallThickness = Random.Range(1, 5);
+        int wallThickness = Random.Range(1, 3);
         for (int x = xPos + wallThickness; x < width + xPos - 1; x++) // This set 0 to the sections we want to create rooms.
         {
             for (int z = zPos + wallThickness; z < depth + zPos - 1; z++) // Start and end by an off set of 1 to keep the "walls".
