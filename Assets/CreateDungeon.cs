@@ -65,12 +65,12 @@ public class CreateDungeon : MonoBehaviour
             //We only want the corridors to be vertical or horizontal.
             if ((int)corridors[i].x == (int)corridors[i - 1].x || (int)corridors[i].y == (int)corridors[i - 1].y) // As-is, not all the rooms are joined by the corridors.
             {
-                BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i - 1].x, (int)corridors[i - 1].y);
+                BresenhamLines((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i - 1].x, (int)corridors[i - 1].y);
             }
             else
             {
-                BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i].x, (int)corridors[i - 1].y);
-                BresenhamLine((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i - 1].x, (int)corridors[i].y);
+                BresenhamLines((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i].x, (int)corridors[i - 1].y);
+                BresenhamLines((int)corridors[i].x, (int)corridors[i].y, (int)corridors[i - 1].x, (int)corridors[i].y);
             }
         }
     }
@@ -100,25 +100,29 @@ public class CreateDungeon : MonoBehaviour
 
     //An adapted version of Bresenham's line algorithm. I will look into understanding it more.
     //https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
-    public void BresenhamLine(int x0, int y0, int x1, int y1)
+    public void BresenhamLines(int x0, int y0, int x1, int y1)
     {
-        int w = x1 - x0; // Delta_W = X
-        int h = y1 - y0; //Delta_H = Y
-        int dx0 = 0, dy0 = 0, dx1 = 0, dy1 = 0;
 
-        if (w < 0) { dx0 = -1; }
-        else if (w > 0) { dx0 = 1; }
+        // I think I now understand why there are 2 sX variables. The points change in making a line from each room to the next.
 
-        if (h < 0) { dy0 = -1; }
-        else if (h > 0) { dy0 = 1; }
 
-        if (w < 0) { dx1 = -1; }
-        else if (w > 0) { dx1 = 1; }
+        int dX = x1 - x0; // Delta_W = X
+        int dY = y1 - y0; //Delta_H = Y
+        int sx0 = 0, sy0 = 0, sx1 = 0, sy1 = 0;
 
-        int longest = Mathf.Abs(w);
-        int shortest = Mathf.Abs(h);
+        if (dX < 0) { sx0 = -1; } // If x1 < x0.
+        else if (dX > 0) { sx0 = 1; }
 
-        /* If (longest (dX) > shortest (dy), then the x-axis is the axis of control for the algorithm and is axis of maximum movement.
+        if (dY < 0) { sy0 = -1; } // If y1 < y0.
+        else if (dX > 0) { sy0 = 1; }
+
+        if (dX < 0) { sx1 = -1; } 
+        else if (dX > 0) { sx1 = 1; }
+
+        int longest = Mathf.Abs(dX);
+        int shortest = Mathf.Abs(dY);
+
+        /* If sX > sy, then the x-axis is the axis of control for the algorithm and is axis of maximum movement.
         Within the main loop of the algorithm, the coordinate corresponding to the axis of control is increment by one unit.
         The coordinate of the other axis is only incremented when needed. As seen below, the longest and shortest are swapped
         to indicate the need for the axis control change.  
@@ -128,15 +132,15 @@ public class CreateDungeon : MonoBehaviour
         */
 
 
-        if (!(longest > shortest))
+        if (!(longest > shortest)) // If x !> y.
         {
-            longest = Mathf.Abs(h); // Switch the longest and shortest.
-            shortest = Mathf.Abs(w);
+            longest = Mathf.Abs(dY); // Swap the longest and shortest.
+            shortest = Mathf.Abs(dX);
 
-            if (h < 0) { dy1 = -1; }
-            else if (h > 0) { dy1 = 1; }
+            if (dY < 0) { sy1 = -1; } // If y1 < y0.
+            else if (dY > 0) { sy1 = 1; }
 
-            dx1 = 0;
+            sx1 = 0;
         }
 
         int numerator = longest >> 1;
@@ -149,13 +153,13 @@ public class CreateDungeon : MonoBehaviour
             if (!(numerator < longest))
             {
                 numerator -= longest;
-                x0 += dx0;
-                y0 += dy0;
+                x0 += sx0;
+                y0 += sy0;
             }
             else
             {
-                x0 += dx1;
-                y0 += dy1;
+                x0 += sx1;
+                y0 += sy1;
             }
         }
     }
